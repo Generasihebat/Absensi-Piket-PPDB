@@ -1,130 +1,678 @@
 <!DOCTYPE html>
-<html>
+<html lang="id">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Absensi Piket PPDB - SMP Islam Simbang Wetan</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.6;
-            color: #333;
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
+        :root {
+            --primary-color: #3498db;
+            --secondary-color: #2980b9;
+            --accent-color: #e74c3c;
+            --light-color: #f8f9fa;
+            --dark-color: #343a40;
+            --success-color: #28a745;
+            --warning-color: #ffc107;
+            --danger-color: #dc3545;
+            --border-radius: 8px;
+            --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
         }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', 'Segoe UI', Arial, sans-serif;
+            line-height: 1.6;
+            background-color: #f5f7fa;
+            color: #333;
+            padding: 20px;
+            background-image: linear-gradient(135deg, #f5f7fa 0%, #e4e8eb 100%);
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 20px auto;
+            background: white;
+            padding: 30px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, #3498db, #2ecc71);
+        }
+        
+        /* Header */
         .header {
             text-align: center;
             margin-bottom: 30px;
             padding-bottom: 20px;
-            border-bottom: 2px solid #3498db;
+            position: relative;
         }
-        .logo {
-            max-width: 100px;
-            height: auto;
+        
+        .header::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 3px;
+            background: var(--primary-color);
+            border-radius: 3px;
         }
-        .title {
-            color: #3498db;
-            margin-top: 10px;
+        
+        .header img.logo {
+            width: 100px;
+            height: 100px;
+            object-fit: contain;
+            margin-bottom: 15px;
+            border-radius: 50%;
+            border: 3px solid var(--primary-color);
+            padding: 5px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: var(--transition);
         }
-        .card {
-            background: #f9f9f9;
-            border-radius: 8px;
-            padding: 20px;
-            margin-bottom: 20px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+
+        .header img.logo:hover {
+            transform: rotate(5deg) scale(1.05);
         }
-        .card-title {
-            color: #3498db;
-            margin-top: 0;
-            border-bottom: 1px solid #eee;
-            padding-bottom: 10px;
-        }
-        .data-row {
-            display: flex;
+        
+        .header h1 {
+            color: var(--dark-color);
             margin-bottom: 10px;
+            font-size: 1.8rem;
+            position: relative;
+            display: inline-block;
         }
-        .data-label {
-            font-weight: bold;
-            width: 180px;
+
+        .header h1::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--primary-color), transparent);
+        }
+        
+        .header h2 {
+            color: var(--primary-color);
+            font-size: 1.2rem;
+            font-weight: 500;
+        }
+        
+        /* Bagian Form */
+        .section {
+            margin-bottom: 30px;
+            padding: 25px;
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            border: 1px solid #eee;
+            transition: var(--transition);
+        }
+
+        .section:hover {
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transform: translateY(-2px);
+        }
+        
+        .section-title {
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-title i {
+            font-size: 1.2rem;
+        }
+        
+        /* Form Group */
+        .form-group {
+            margin-bottom: 20px;
+            position: relative;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
             color: #555;
+            font-size: 0.95rem;
         }
-        .data-value {
+        
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: var(--border-radius);
+            font-size: 16px;
+            transition: var(--transition);
+            background-color: #f9f9f9;
+        }
+
+        .form-control:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+            outline: none;
+            background-color: white;
+        }
+        
+        textarea.form-control {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .form-row .form-group {
             flex: 1;
+            margin-bottom: 0;
         }
+        
+        /* Tombol */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 14px 25px;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 500;
+            transition: var(--transition);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        
+        .btn:hover {
+            background: var(--secondary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+        
+        .btn-block {
+            display: flex;
+            width: 100%;
+        }
+
+        .btn i {
+            font-size: 1rem;
+        }
+        
+        /* Tabel */
+        .table-container {
+            overflow-x: auto;
+            margin-top: 20px;
+            border-radius: var(--border-radius);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 600px;
+        }
+        
+        .table th, .table td {
+            padding: 14px 15px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .table th {
+            background-color: var(--primary-color);
+            color: white;
+            font-weight: 500;
+            position: sticky;
+            top: 0;
+        }
+
+        .table th:first-child {
+            border-top-left-radius: var(--border-radius);
+        }
+
+        .table th:last-child {
+            border-top-right-radius: var(--border-radius);
+        }
+        
+        .table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        .table tr:hover {
+            background-color: #f1f7fd;
+        }
+
+        .table td:last-child {
+            max-width: 200px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        /* Pesan */
+        .alert {
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: var(--border-radius);
+            display: none;
+            align-items: center;
+            gap: 10px;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .alert-success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .alert-danger {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .alert i {
+            font-size: 1.2rem;
+        }
+        
+        /* Responsif */
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+            
+            .section {
+                padding: 20px;
+            }
+
+            .form-row {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .header h1 {
+                font-size: 1.5rem;
+            }
+
+            .header h2 {
+                font-size: 1rem;
+            }
+            
+            .table th, .table td {
+                padding: 10px 12px;
+                font-size: 0.9rem;
+            }
+        }
+
+        /* Animasi Loading */
+        .loader {
+            display: none;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Badge */
         .badge {
             display: inline-block;
-            background: #3498db;
-            color: white;
-            padding: 2px 8px;
+            padding: 4px 8px;
             border-radius: 4px;
-            font-size: 0.8em;
-            margin-left: 10px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
-        .footer {
-            text-align: center;
-            margin-top: 30px;
-            padding-top: 20px;
-            border-top: 1px solid #eee;
-            color: #777;
-            font-size: 0.9em;
+
+        .badge-primary {
+            background-color: var(--primary-color);
+            color: white;
         }
-        .highlight {
-            font-weight: bold;
-            color: #2ecc71;
+
+        /* Floating Action Button */
+        .fab {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background-color: var(--primary-color);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            z-index: 100;
+            transition: var(--transition);
+        }
+
+        .fab:hover {
+            transform: scale(1.1) rotate(90deg);
+            background-color: var(--secondary-color);
         }
     </style>
 </head>
 <body>
-    <div class="header">
-        <h1 class="title">LAPORAN PIKET PPDB</h1>
-        <h2>SMP ISLAM SIMBANG WETAN</h2>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <img src="https://ik.imagekit.io/8soozopl2/channels4_profile.jpg?updatedAt=1747904023769" alt="Logo Sekolah" class="logo">
+            <h1>APLIKASI ABSENSI PIKET PPDB</h1>
+            <h2>SMP ISLAM SIMBANG WETAN</h2>
+        </header>
+        
+        <!-- Form Data Petugas -->
+        <section class="section">
+            <h3 class="section-title"><i class="fas fa-user-tie"></i> DATA PETUGAS PIKET</h3>
+            <form id="petugasForm">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="tanggal"><i class="far fa-calendar-alt"></i> Tanggal Piket</label>
+                        <input type="date" id="tanggal" class="form-control" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="jabatan"><i class="fas fa-briefcase"></i> Jabatan</label>
+                        <select id="jabatan" class="form-control" required>
+                            <option value="">Pilih Jabatan</option>
+                            <option value="Kepala Sekolah">Kepala Sekolah</option>
+                            <option value="Wakil Kepala Sekolah">Wakil Kepala Sekolah</option>
+                            <option value="Guru">Guru</option>
+                            <option value="Staf TU">Staf TU</option>
+                            <option value="Lainnya">Lainnya</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="namaPetugas"><i class="fas fa-user"></i> Nama Petugas</label>
+                    <input type="text" id="namaPetugas" class="form-control" required>
+                </div>
+            </form>
+        </section>
+        
+        <!-- Form Laporan Pendaftar -->
+        <section class="section">
+            <h3 class="section-title"><i class="fas fa-clipboard-list"></i> LAPORAN PENDAFTAR HARIAN</h3>
+            <form id="pendaftarForm">
+                <div class="form-group">
+                    <label for="tglPendaftaran"><i class="far fa-calendar-check"></i> Tanggal Pendaftaran</label>
+                    <input type="date" id="tglPendaftaran" class="form-control" required>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="jmlLaki"><i class="fas fa-male"></i> Laki-laki</label>
+                        <input type="number" id="jmlLaki" class="form-control" min="0" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="jmlPerempuan"><i class="fas fa-female"></i> Perempuan</label>
+                        <input type="number" id="jmlPerempuan" class="form-control" min="0" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="total"><i class="fas fa-users"></i> Total</label>
+                        <input type="number" id="total" class="form-control" readonly>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="catatan"><i class="fas fa-sticky-note"></i> Catatan/Kendala</label>
+                    <textarea id="catatan" class="form-control" placeholder="Masukkan catatan atau kendala yang dihadapi..."></textarea>
+                </div>
+                
+                <button type="button" id="btnKirim" class="btn btn-block">
+                    <i class="fas fa-paper-plane"></i> KIRIM LAPORAN
+                    <div class="loader" id="loader"></div>
+                </button>
+                
+                <div id="alertSuccess" class="alert alert-success">
+                    <i class="fas fa-check-circle"></i>
+                    <span>Laporan berhasil dikirim!</span>
+                </div>
+                
+                <div id="alertError" class="alert alert-danger">
+                    <i class="fas fa-exclamation-circle"></i>
+                    <span>Terjadi kesalahan saat mengirim laporan. Silakan coba lagi.</span>
+                </div>
+            </form>
+        </section>
+        
+        <!-- Tabel Rekapitulasi -->
+        <section class="section">
+            <h3 class="section-title"><i class="fas fa-chart-bar"></i> REKAPITULASI PENDATAAN</h3>
+            <div class="table-container">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Tanggal</th>
+                            <th>Petugas</th>
+                            <th>Laki-laki</th>
+                            <th>Perempuan</th>
+                            <th>Total</th>
+                            <th>Catatan</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabelRekap">
+                        <!-- Data akan diisi oleh JavaScript -->
+                        <tr>
+                            <td colspan="6" style="text-align: center;">Belum ada data</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
     </div>
 
-    <div class="card">
-        <h3 class="card-title">DATA PETUGAS PIKET</h3>
-        <div class="data-row">
-            <div class="data-label">Tanggal Piket:</div>
-            <div class="data-value">{{tanggal}}</div>
-        </div>
-        <div class="data-row">
-            <div class="data-label">Nama Petugas:</div>
-            <div class="data-value">{{namaPetugas}} <span class="badge">{{jabatan}}</span></div>
-        </div>
+    <div class="fab" id="printBtn" title="Cetak Laporan">
+        <i class="fas fa-print"></i>
     </div>
 
-    <div class="card">
-        <h3 class="card-title">REKAPITULASI PENDAFTAR</h3>
-        <div class="data-row">
-            <div class="data-label">Tanggal Pendaftaran:</div>
-            <div class="data-value">{{tglPendaftaran}}</div>
-        </div>
-        <div class="data-row">
-            <div class="data-label">Jumlah Laki-laki:</div>
-            <div class="data-value">{{jmlLaki}} siswa</div>
-        </div>
-        <div class="data-row">
-            <div class="data-label">Jumlah Perempuan:</div>
-            <div class="data-value">{{jmlPerempuan}} siswa</div>
-        </div>
-        <div class="data-row">
-            <div class="data-label">Total Pendaftar:</div>
-            <div class="data-value highlight">{{total}} siswa</div>
-        </div>
-        <div class="data-row">
-            <div class="data-label">Catatan/Kendala:</div>
-            <div class="data-value">{{catatan}}</div>
-        </div>
-    </div>
-
-    <div class="card">
-        <h3 class="card-title">INFORMASI PENGIRIMAN</h3>
-        <div class="data-row">
-            <div class="data-label">Waktu Pengiriman:</div>
-            <div class="data-value">{{waktu}}, {{tanggal}}</div>
-        </div>
-    </div>
-
-    <div class="footer">
-        <p>Laporan ini dikirim otomatis dari Aplikasi Absensi Piket PPDB SMP Islam Simbang Wetan</p>
-        <p>Tahun Ajaran {{tahun}}/{{tahun+1}}</p>
-    </div>
+    <!-- Script JavaScript -->
+    <script>
+        // Inisialisasi EmailJS
+        emailjs.init('Ahi3D_1Wee8y3rdGS');
+        
+        // Fungsi untuk menghitung total
+        function hitungTotal() {
+            const jmlLaki = parseInt(document.getElementById('jmlLaki').value) || 0;
+            const jmlPerempuan = parseInt(document.getElementById('jmlPerempuan').value) || 0;
+            document.getElementById('total').value = jmlLaki + jmlPerempuan;
+        }
+        
+        // Event listeners
+        document.getElementById('jmlLaki').addEventListener('input', hitungTotal);
+        document.getElementById('jmlPerempuan').addEventListener('input', hitungTotal);
+        
+        // Fungsi untuk validasi form
+        function validasiForm() {
+            let isValid = true;
+            const requiredFields = [
+                'tanggal', 'namaPetugas', 'jabatan', 
+                'tglPendaftaran', 'jmlLaki', 'jmlPerempuan'
+            ];
+            
+            requiredFields.forEach(fieldId => {
+                const field = document.getElementById(fieldId);
+                if (!field.value) {
+                    field.style.borderColor = 'var(--danger-color)';
+                    isValid = false;
+                } else {
+                    field.style.borderColor = '#ddd';
+                }
+            });
+            
+            if (!isValid) {
+                tampilkanPesan('error', 'Harap isi semua field yang wajib diisi');
+                return false;
+            }
+            
+            return true;
+        }
+        
+        // Fungsi untuk mengirim data
+        function kirimData() {
+            if (!validasiForm()) return;
+            
+            // Tampilkan loader
+            const loader = document.getElementById('loader');
+            const btnKirim = document.getElementById('btnKirim');
+            loader.style.display = 'block';
+            btnKirim.disabled = true;
+            
+            // Kumpulkan data
+            const data = {
+                tanggal: formatTanggal(document.getElementById('tanggal').value),
+                namaPetugas: document.getElementById('namaPetugas').value,
+                jabatan: document.getElementById('jabatan').value,
+                tglPendaftaran: formatTanggal(document.getElementById('tglPendaftaran').value),
+                jmlLaki: document.getElementById('jmlLaki').value,
+                jmlPerempuan: document.getElementById('jmlPerempuan').value,
+                total: document.getElementById('total').value,
+                catatan: document.getElementById('catatan').value || '-',
+                waktu: new Date().toLocaleTimeString(),
+                tahun: new Date().getFullYear()
+            };
+            
+            // Kirim email menggunakan EmailJS
+            emailjs.send('service_zyrul7r', 'template_ubqsa57', data)
+                .then(function(response) {
+                    console.log('Email berhasil dikirim!', response);
+                    tampilkanPesan('success', 'Laporan berhasil dikirim ke email');
+                    tambahKeTabel(data);
+                    resetForm();
+                })
+                .catch(function(error) {
+                    console.log('Gagal mengirim email:', error);
+                    tampilkanPesan('error', 'Gagal mengirim laporan. Silakan coba lagi.');
+                })
+                .finally(function() {
+                    // Sembunyikan loader
+                    loader.style.display = 'none';
+                    btnKirim.disabled = false;
+                });
+        }
+        
+        // Fungsi untuk menampilkan pesan
+        function tampilkanPesan(type, message) {
+            const successAlert = document.getElementById('alertSuccess');
+            const errorAlert = document.getElementById('alertError');
+            
+            if (type === 'success') {
+                successAlert.querySelector('span').textContent = message;
+                successAlert.style.display = 'flex';
+                errorAlert.style.display = 'none';
+            } else {
+                errorAlert.querySelector('span').textContent = message;
+                errorAlert.style.display = 'flex';
+                successAlert.style.display = 'none';
+            }
+            
+            setTimeout(() => {
+                successAlert.style.display = 'none';
+                errorAlert.style.display = 'none';
+            }, 5000);
+        }
+        
+        // Fungsi untuk menambahkan data ke tabel
+        function tambahKeTabel(data) {
+            const tbody = document.getElementById('tabelRekap');
+            
+            // Hapus pesan "Belum ada data" jika ada
+            if (tbody.querySelector('td[colspan]')) {
+                tbody.innerHTML = '';
+            }
+            
+            const row = document.createElement('tr');
+            
+            row.innerHTML = `
+                <td>${data.tanggal}</td>
+                <td>${data.namaPetugas} <span class="badge badge-primary">${data.jabatan}</span></td>
+                <td>${data.jmlLaki}</td>
+                <td>${data.jmlPerempuan}</td>
+                <td><strong>${data.total}</strong></td>
+                <td>${data.catatan}</td>
+            `;
+            
+            tbody.prepend(row);
+        }
+        
+        // Fungsi untuk mereset form
+        function resetForm() {
+            document.getElementById('pendaftarForm').reset();
+            document.getElementById('total').value = '';
+            document.getElementById('catatan').value = '';
+        }
+        
+        // Fungsi untuk memformat tanggal
+        function formatTanggal(dateString) {
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            return new Date(dateString).toLocaleDateString('id-ID', options);
+        }
+        
+        // Set tanggal default saat halaman dimuat
+        document.addEventListener('DOMContentLoaded', function() {
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('tanggal').value = today;
+            document.getElementById('tglPendaftaran').value = today;
+            
+            // Event listener untuk tombol kirim
+            document.getElementById('btnKirim').addEventListener('click', kirimData);
+            
+            // Event listener untuk tombol cetak
+            document.getElementById('printBtn').addEventListener('click', function() {
+                window.print();
+            });
+        });
+    </script>
 </body>
 </html>
