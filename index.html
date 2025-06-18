@@ -1,491 +1,130 @@
 <!DOCTYPE html>
-<html lang="id">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SMP Islam Simbang Wetan - Aplikasi Piket PPDB</title>
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             line-height: 1.6;
-            margin: 0;
-            padding: 0;
-            background-color: #f5f5f5;
             color: #333;
-        }
-        .container {
-            max-width: 1200px;
+            max-width: 800px;
             margin: 0 auto;
             padding: 20px;
         }
-        header {
-            background-color: #2c3e50;
-            color: white;
-            padding: 20px 0;
+        .header {
             text-align: center;
-            border-radius: 5px;
-            margin-bottom: 20px;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #3498db;
         }
-        header img {
-            height: 80px;
-            margin-bottom: 10px;
+        .logo {
+            max-width: 100px;
+            height: auto;
         }
-        h1, h2, h3 {
-            color: #2c3e50;
+        .title {
+            color: #3498db;
+            margin-top: 10px;
         }
         .card {
-            background: white;
+            background: #f9f9f9;
+            border-radius: 8px;
             padding: 20px;
             margin-bottom: 20px;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 20px;
+        .card-title {
+            color: #3498db;
+            margin-top: 0;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
         }
-        table, th, td {
-            border: 1px solid #ddd;
-        }
-        th, td {
-            padding: 12px;
-            text-align: left;
-        }
-        th {
-            background-color: #3498db;
-            color: white;
-        }
-        tr:nth-child(even) {
-            background-color: #f2f2f2;
-        }
-        .form-group {
-            margin-bottom: 15px;
-        }
-        label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
-        }
-        input, select, textarea {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            box-sizing: border-box;
-        }
-        button {
-            background-color: #3498db;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 16px;
-        }
-        button:hover {
-            background-color: #2980b9;
-        }
-        .flex-container {
+        .data-row {
             display: flex;
-            gap: 20px;
+            margin-bottom: 10px;
         }
-        .flex-item {
+        .data-label {
+            font-weight: bold;
+            width: 180px;
+            color: #555;
+        }
+        .data-value {
             flex: 1;
         }
-        .today-highlight {
-            background-color: #fffde7 !important;
-            font-weight: bold;
+        .badge {
+            display: inline-block;
+            background: #3498db;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.8em;
+            margin-left: 10px;
         }
         .footer {
             text-align: center;
             margin-top: 30px;
-            padding: 20px;
-            background-color: #2c3e50;
-            color: white;
-            border-radius: 5px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+            color: #777;
+            font-size: 0.9em;
         }
-        @media (max-width: 768px) {
-            .flex-container {
-                flex-direction: column;
-            }
+        .highlight {
+            font-weight: bold;
+            color: #2ecc71;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>SMP ISLAM SIMBANG WETAN</h1>
-            <h3>YAYASAN ROHANI ISLAM (YAROHIS)</h3>
-            <p>Alamat: Simbang Wetan Gg 1 Kecamatan Buaran Kabupaten Pekalongan</p>
-            <p>Telp: 0851-6644-4407 | Email: smnyarohis@gmail.com</p>
-        </header>
+    <div class="header">
+        <h1 class="title">LAPORAN PIKET PPDB</h1>
+        <h2>SMP ISLAM SIMBANG WETAN</h2>
+    </div>
 
-        <div class="card">
-            <h2>JADWAL PIKET PPDB 23 JUNI - 12 JULI 2025</h2>
-            <div class="table-responsive">
-                <table id="scheduleTable">
-                    <thead>
-                        <tr>
-                            <th>HARI/TANGGAL</th>
-                            <th>PANITIA 1</th>
-                            <th>PANITIA 2</th>
-                            <th>OSIS 1</th>
-                            <th>OSIS 2</th>
-                            <th>OSIS 3</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Senin, 23 Juni 2025</td>
-                            <td>Pak Ibad</td>
-                            <td>Pak Najib</td>
-                            <td>Maftukhin</td>
-                            <td>Hanan</td>
-                            <td>Faris</td>
-                        </tr>
-                        <tr>
-                            <td>Selasa, 24 Juni 2025</td>
-                            <td>Bu Retno</td>
-                            <td>Bu Putri</td>
-                            <td>Aylin</td>
-                            <td>Aura</td>
-                            <td>Faela</td>
-                        </tr>
-                        <tr>
-                            <td>Rabu, 25 Juni 2025</td>
-                            <td>Bu Khosylah</td>
-                            <td>Bu Ulfi</td>
-                            <td>Malika</td>
-                            <td>Syaena</td>
-                            <td>Saniyya</td>
-                        </tr>
-                        <tr>
-                            <td>Kamis, 26 Juni 2025</td>
-                            <td>Bu Ndilah</td>
-                            <td>Bu Uyun</td>
-                            <td>Ira</td>
-                            <td>Ditha</td>
-                            <td>Suci</td>
-                        </tr>
-                        <tr>
-                            <td>Sabtu, 28 Juni 2025</td>
-                            <td>Pak Sigit</td>
-                            <td>Pak Istikhonah</td>
-                            <td>Gina</td>
-                            <td>Zahro</td>
-                            <td>Viera</td>
-                        </tr>
-                        <tr>
-                            <td>Minggu, 29 Juni 2025</td>
-                            <td>Pak Ferry</td>
-                            <td>Pak Ikhrom</td>
-                            <td>Dahlia</td>
-                            <td>Safa</td>
-                            <td>Fara</td>
-                        </tr>
-                        <!-- Tambahkan baris untuk tanggal lainnya sesuai jadwal -->
-                    </tbody>
-                </table>
-            </div>
-            <p><strong>Jam Piket:</strong> 08.00 - 13.00 WIB</p>
+    <div class="card">
+        <h3 class="card-title">DATA PETUGAS PIKET</h3>
+        <div class="data-row">
+            <div class="data-label">Tanggal Piket:</div>
+            <div class="data-value">{{tanggal}}</div>
         </div>
-
-        <div class="flex-container">
-            <div class="flex-item">
-                <div class="card">
-                    <h2>ABSENSI PIKET</h2>
-                    <form id="attendanceForm">
-                        <div class="form-group">
-                            <label for="attendanceDate">Tanggal:</label>
-                            <input type="date" id="attendanceDate" name="attendanceDate" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="personType">Jabatan:</label>
-                            <select id="personType" name="personType" required>
-                                <option value="">-- Pilih Jabatan --</option>
-                                <option value="panitia1">Panitia 1</option>
-                                <option value="panitia2">Panitia 2</option>
-                                <option value="osis1">OSIS 1</option>
-                                <option value="osis2">OSIS 2</option>
-                                <option value="osis3">OSIS 3</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="personName">Nama:</label>
-                            <input type="text" id="personName" name="personName" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="attendanceTime">Waktu Absensi:</label>
-                            <input type="time" id="attendanceTime" name="attendanceTime" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="attendanceStatus">Status Kehadiran:</label>
-                            <select id="attendanceStatus" name="attendanceStatus" required>
-                                <option value="hadir">Hadir</option>
-                                <option value="terlambat">Terlambat</option>
-                                <option value="izin">Izin</option>
-                                <option value="sakit">Sakit</option>
-                                <option value="alfa">Alfa</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="attendanceNote">Catatan:</label>
-                            <textarea id="attendanceNote" name="attendanceNote" rows="3"></textarea>
-                        </div>
-                        <button type="submit">Simpan Absensi</button>
-                    </form>
-                </div>
-            </div>
-
-            <div class="flex-item">
-                <div class="card">
-                    <h2>LAPORAN HARIAN PENDAFTAR</h2>
-                    <form id="registrationReportForm">
-                        <div class="form-group">
-                            <label for="reportDate">Tanggal Laporan:</label>
-                            <input type="date" id="reportDate" name="reportDate" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="registrantCount">Jumlah Pendaftar:</label>
-                            <input type="number" id="registrantCount" name="registrantCount" min="0" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="registrantNames">Nama-nama Pendaftar (pisahkan dengan koma):</label>
-                            <textarea id="registrantNames" name="registrantNames" rows="3" required></textarea>
-                        </div>
-                        <div class="form-group">
-                            <label for="paymentStatus">Status Pembayaran:</label>
-                            <select id="paymentStatus" name="paymentStatus" required>
-                                <option value="lunas">Lunas</option>
-                                <option value="belum_lunas">Belum Lunas</option>
-                                <option value="cicilan">Cicilan</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="reportNote">Catatan Tambahan:</label>
-                            <textarea id="reportNote" name="reportNote" rows="3"></textarea>
-                        </div>
-                        <button type="submit">Simpan Laporan</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-
-        <div class="card">
-            <h2>REKAPITULASI ABSENSI</h2>
-            <table id="attendanceSummary">
-                <thead>
-                    <tr>
-                        <th>Tanggal</th>
-                        <th>Panitia 1</th>
-                        <th>Panitia 2</th>
-                        <th>OSIS 1</th>
-                        <th>OSIS 2</th>
-                        <th>OSIS 3</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- Data akan diisi oleh JavaScript -->
-                </tbody>
-            </table>
-        </div>
-
-        <div class="card">
-            <h2>REKAPITULASI PENDAFTAR</h2>
-            <table id="registrationSummary">
-                <thead>
-                    <tr>
-                        <th>Tanggal</th>
-                        <th>Jumlah Pendaftar</th>
-                        <th>Status Pembayaran</th>
-                        <th>Catatan</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- Data akan diisi oleh JavaScript -->
-                </tbody>
-            </table>
-        </div>
-
-        <div class="footer">
-            <p>&copy; 2025 SMP Islam Simbang Wetan - Yayasan Rohani Islam (YAROHIS)</p>
-            <p>NPSN: 20323381 | Web: www.smpisiamsimbangwetan.ach.id</p>
+        <div class="data-row">
+            <div class="data-label">Nama Petugas:</div>
+            <div class="data-value">{{namaPetugas}} <span class="badge">{{jabatan}}</span></div>
         </div>
     </div>
 
-    <script>
-        // Fungsi untuk menandai hari ini di tabel jadwal
-        function highlightToday() {
-            const today = new Date();
-            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-            const todayString = today.toLocaleDateString('id-ID', options);
-            
-            const rows = document.querySelectorAll('#scheduleTable tbody tr');
-            rows.forEach(row => {
-                const dateCell = row.cells[0];
-                if (dateCell.textContent.includes(todayString)) {
-                    row.classList.add('today-highlight');
-                }
-            });
-        }
+    <div class="card">
+        <h3 class="card-title">REKAPITULASI PENDAFTAR</h3>
+        <div class="data-row">
+            <div class="data-label">Tanggal Pendaftaran:</div>
+            <div class="data-value">{{tglPendaftaran}}</div>
+        </div>
+        <div class="data-row">
+            <div class="data-label">Jumlah Laki-laki:</div>
+            <div class="data-value">{{jmlLaki}} siswa</div>
+        </div>
+        <div class="data-row">
+            <div class="data-label">Jumlah Perempuan:</div>
+            <div class="data-value">{{jmlPerempuan}} siswa</div>
+        </div>
+        <div class="data-row">
+            <div class="data-label">Total Pendaftar:</div>
+            <div class="data-value highlight">{{total}} siswa</div>
+        </div>
+        <div class="data-row">
+            <div class="data-label">Catatan/Kendala:</div>
+            <div class="data-value">{{catatan}}</div>
+        </div>
+    </div>
 
-        // Fungsi untuk menyimpan data absensi ke localStorage
-        function saveAttendance(event) {
-            event.preventDefault();
-            
-            const attendanceData = {
-                date: document.getElementById('attendanceDate').value,
-                type: document.getElementById('personType').value,
-                name: document.getElementById('personName').value,
-                time: document.getElementById('attendanceTime').value,
-                status: document.getElementById('attendanceStatus').value,
-                note: document.getElementById('attendanceNote').value
-            };
-            
-            // Simpan ke localStorage
-            let attendances = JSON.parse(localStorage.getItem('attendances')) || [];
-            attendances.push(attendanceData);
-            localStorage.setItem('attendances', JSON.stringify(attendances));
-            
-            // Refresh tabel rekap
-            updateAttendanceSummary();
-            
-            // Reset form
-            document.getElementById('attendanceForm').reset();
-            
-            alert('Absensi berhasil disimpan!');
-        }
+    <div class="card">
+        <h3 class="card-title">INFORMASI PENGIRIMAN</h3>
+        <div class="data-row">
+            <div class="data-label">Waktu Pengiriman:</div>
+            <div class="data-value">{{waktu}}, {{tanggal}}</div>
+        </div>
+    </div>
 
-        // Fungsi untuk menyimpan laporan pendaftar ke localStorage
-        function saveRegistrationReport(event) {
-            event.preventDefault();
-            
-            const reportData = {
-                date: document.getElementById('reportDate').value,
-                count: document.getElementById('registrantCount').value,
-                names: document.getElementById('registrantNames').value,
-                payment: document.getElementById('paymentStatus').value,
-                note: document.getElementById('reportNote').value
-            };
-            
-            // Simpan ke localStorage
-            let reports = JSON.parse(localStorage.getItem('registrationReports')) || [];
-            reports.push(reportData);
-            localStorage.setItem('registrationReports', JSON.stringify(reports));
-            
-            // Refresh tabel rekap
-            updateRegistrationSummary();
-            
-            // Reset form
-            document.getElementById('registrationReportForm').reset();
-            
-            alert('Laporan pendaftar berhasil disimpan!');
-        }
-
-        // Fungsi untuk memperbarui tabel rekap absensi
-        function updateAttendanceSummary() {
-            const attendances = JSON.parse(localStorage.getItem('attendances')) || [];
-            const summaryTable = document.getElementById('attendanceSummary').getElementsByTagName('tbody')[0];
-            summaryTable.innerHTML = '';
-            
-            // Buat objek untuk mengelompokkan absensi per tanggal
-            const attendanceByDate = {};
-            
-            attendances.forEach(att => {
-                if (!attendanceByDate[att.date]) {
-                    attendanceByDate[att.date] = {
-                        panitia1: '-',
-                        panitia2: '-',
-                        osis1: '-',
-                        osis2: '-',
-                        osis3: '-'
-                    };
-                }
-                
-                // Update status berdasarkan jabatan
-                const statusText = `${att.name} (${att.status.toUpperCase()})`;
-                switch(att.type) {
-                    case 'panitia1':
-                        attendanceByDate[att.date].panitia1 = statusText;
-                        break;
-                    case 'panitia2':
-                        attendanceByDate[att.date].panitia2 = statusText;
-                        break;
-                    case 'osis1':
-                        attendanceByDate[att.date].osis1 = statusText;
-                        break;
-                    case 'osis2':
-                        attendanceByDate[att.date].osis2 = statusText;
-                        break;
-                    case 'osis3':
-                        attendanceByDate[att.date].osis3 = statusText;
-                        break;
-                }
-            });
-            
-            // Tambahkan data ke tabel
-            for (const date in attendanceByDate) {
-                const row = summaryTable.insertRow();
-                row.insertCell(0).textContent = date;
-                row.insertCell(1).textContent = attendanceByDate[date].panitia1;
-                row.insertCell(2).textContent = attendanceByDate[date].panitia2;
-                row.insertCell(3).textContent = attendanceByDate[date].osis1;
-                row.insertCell(4).textContent = attendanceByDate[date].osis2;
-                row.insertCell(5).textContent = attendanceByDate[date].osis3;
-            }
-        }
-
-        // Fungsi untuk memperbarui tabel rekap pendaftar
-        function updateRegistrationSummary() {
-            const reports = JSON.parse(localStorage.getItem('registrationReports')) || [];
-            const summaryTable = document.getElementById('registrationSummary').getElementsByTagName('tbody')[0];
-            summaryTable.innerHTML = '';
-            
-            reports.forEach(report => {
-                const row = summaryTable.insertRow();
-                row.insertCell(0).textContent = report.date;
-                row.insertCell(1).textContent = report.count;
-                
-                let paymentStatus = '';
-                switch(report.payment) {
-                    case 'lunas':
-                        paymentStatus = 'Lunas';
-                        break;
-                    case 'belum_lunas':
-                        paymentStatus = 'Belum Lunas';
-                        break;
-                    case 'cicilan':
-                        paymentStatus = 'Cicilan';
-                        break;
-                }
-                row.insertCell(2).textContent = paymentStatus;
-                
-                // Potong catatan jika terlalu panjang
-                const shortNote = report.note.length > 50 ? report.note.substring(0, 47) + '...' : report.note;
-                row.insertCell(3).textContent = shortNote;
-                row.cells[3].title = report.note; // Tooltip untuk catatan lengkap
-            });
-        }
-
-        // Inisialisasi saat halaman dimuat
-        document.addEventListener('DOMContentLoaded', function() {
-            // Highlight hari ini di jadwal
-            highlightToday();
-            
-            // Set tanggal default ke hari ini
-            const today = new Date().toISOString().split('T')[0];
-            document.getElementById('attendanceDate').value = today;
-            document.getElementById('reportDate').value = today;
-            
-            // Event listener untuk form
-            document.getElementById('attendanceForm').addEventListener('submit', saveAttendance);
-            document.getElementById('registrationReportForm').addEventListener('submit', saveRegistrationReport);
-            
-            // Muat data yang sudah tersimpan
-            updateAttendanceSummary();
-            updateRegistrationSummary();
-        });
-    </script>
+    <div class="footer">
+        <p>Laporan ini dikirim otomatis dari Aplikasi Absensi Piket PPDB SMP Islam Simbang Wetan</p>
+        <p>Tahun Ajaran {{tahun}}/{{tahun+1}}</p>
+    </div>
 </body>
 </html>
